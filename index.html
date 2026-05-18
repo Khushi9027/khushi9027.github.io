@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Khushi Saini — Portfolio</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── RESET & TOKENS ─────────────────────────────────────── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:        #0d0d0f;
+      --surface:   #141417;
+      --border:    rgba(255,255,255,0.07);
+      --text:      #d4d4d8;
+      --muted:     #71717a;
+      --accent1:   #12e2c0;
+      --accent2:   #e8d44d;
+      --accent3:   #f472b6;
+      --grad:      linear-gradient(110deg, var(--accent1), var(--accent2));
+      --font-head: 'Syne', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+      --radius:    16px;
+      --transition: 0.35s cubic-bezier(.4,0,.2,1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* noise grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.35;
+    }
+
+    /* ─── SCROLLBAR ──────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent1); border-radius: 99px; }
+
+    /* ─── UTILITY ────────────────────────────────────────────── */
+    .grad-text {
+      background: var(--grad);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-family: var(--font-head);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent1);
+      border: 1px solid var(--accent1);
+      border-radius: 99px;
+      padding: 4px 14px;
+      margin-bottom: 1.2rem;
+    }
+
+    /* ─── NAV ────────────────────────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0 2rem;
+      height: 64px;
+      background: rgba(13,13,15,0.72);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav ul {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    nav ul li a {
+      color: var(--muted);
+      text-decoration: none;
+      font-family: var(--font-head);
+      font-size: 0.875rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      position: relative;
+      transition: color var(--transition);
+    }
+
+    nav ul li a::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: -4px;
+      width: 0; height: 2px;
+      background: var(--grad);
+      border-radius: 99px;
+      transition: width var(--transition);
+    }
+
+    nav ul li a:hover { color: #fff; }
+    nav ul li a:hover::after { width: 100%; }
+
+    /* ─── HERO ───────────────────────────────────────────────── */
+    #about {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6rem 8vw;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* glowing blobs */
+    #about::before, #about::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      opacity: 0.22;
+    }
+    #about::before {
+      width: 600px; height: 600px;
+      background: var(--accent1);
+      top: -200px; right: -100px;
+      animation: floatA 9s ease-in-out infinite alternate;
+    }
+    #about::after {
+      width: 500px; height: 500px;
+      background: var(--accent3);
+      bottom: -150px; left: -150px;
+      animation: floatB 11s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatA { from { transform: translate(0,0); } to { transform: translate(60px, 40px); } }
+    @keyframes floatB { from { transform: translate(0,0); } to { transform: translate(-40px, 60px); } }
+
+    .hero-eyebrow {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.2s forwards;
+    }
+
+    .hero-name {
+      font-family: var(--font-head);
+      font-size: clamp(3.5rem, 9vw, 8rem);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.4s forwards;
+    }
+
+    .hero-role {
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      color: var(--muted);
+      font-weight: 300;
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.6s forwards;
+    }
+
+    .hero-bio {
+      max-width: 540px;
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: var(--text);
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.8s forwards;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.6s 1s forwards;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 0.875rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.8em 2em;
+      border-radius: 99px;
+      cursor: pointer;
+      transition: all var(--transition);
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--grad);
+      color: #0d0d0f;
+      border: none;
+    }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(18,226,192,0.3); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { border-color: var(--accent1); color: var(--accent1); transform: translateY(-3px); }
+
+    /* scroll hint */
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--muted);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      animation: bounce 2s infinite;
+    }
+    .scroll-hint .line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--accent1), transparent);
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(8px); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── SECTION SHELL ──────────────────────────────────────── */
+    .section {
+      padding: 6rem 8vw;
+      position: relative;
+    }
+
+    .section-header {
+      margin-bottom: 3.5rem;
+    }
+
+    .section-title {
+      font-family: var(--font-head);
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-sub {
+      font-size: 1rem;
+      color: var(--muted);
+    }
+
+    /* ─── TECH STACK ─────────────────────────────────────────── */
+    #techStack { background: var(--surface); }
+
+    .skills-glass {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 3rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+      justify-content: center;
+    }
+
+    .skill-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.9rem 1.5rem;
+      font-family: var(--font-head);
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      transition: all var(--transition);
+      cursor: default;
+    }
+
+    .skill-pill:hover {
+      background: rgba(18,226,192,0.08);
+      border-color: var(--accent1);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(18,226,192,0.15);
+    }
+
+    .skill-pill img {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+    }
+
+    /* ─── PROJECTS ───────────────────────────────────────────── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: all var(--transition);
+      group: true;
+    }
+
+    .project-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(18,226,192,0.3);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(18,226,192,0.1);
+    }
+
+    .project-thumb {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      transition: transform var(--transition);
+    }
+
+    .project-card:hover .project-thumb { transform: scale(1.04); }
+
+    .project-img-wrap {
+      overflow: hidden;
+      position: relative;
+    }
+
+    .project-img-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, var(--surface) 0%, transparent 60%);
+    }
+
+    .project-body {
+      padding: 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .project-title {
+      font-family: var(--font-head);
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .project-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.7;
+      flex: 1;
+    }
+
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--accent1);
+      text-decoration: none;
+      font-family: var(--font-head);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: gap var(--transition);
+    }
+    .project-link:hover { gap: 0.7rem; }
+    .project-link::after { content: '→'; }
+
+    /* ─── CONTACT ────────────────────────────────────────────── */
+    #contact {
+      background: var(--surface);
+      text-align: center;
+    }
+
+    .contact-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 3.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--grad);
+    }
+
+    .contact-email {
+      font-family: var(--font-head);
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      font-weight: 800;
+      color: #fff;
+      margin: 1rem 0 2rem;
+    }
+
+    .social-row {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .social-btn {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition);
+      cursor: pointer;
+    }
+
+    .social-btn:hover {
+      border-color: var(--accent1);
+      background: rgba(18,226,192,0.1);
+      transform: translateY(-3px);
+    }
+
+    .social-btn img {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+      filter: brightness(0.8);
+    }
+
+    /* ─── FOOTER ─────────────────────────────────────────────── */
+    footer {
+      padding: 1.5rem 8vw;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    footer span { font-family: var(--font-head); }
+
+    /* ─── REVEAL ANIMATION ───────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      .section { padding: 4rem 5vw; }
+      #about { padding: 5rem 5vw; }
+      .contact-card { padding: 2rem; }
+      nav ul { gap: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAV ─────────────────────────────────────────────────── -->
+  <nav>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#techStack">Stack</a></li>
+      <li><a href="#project">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── HERO ────────────────────────────────────────────────── -->
+  <section id="about">
+    <p class="hero-eyebrow">✦ Available for work</p>
+    <h1 class="hero-name grad-text">Khushi<br>Saini.</h1>
+    <p class="hero-role">Front-end Developer &amp; UI Designer</p>
+    <p class="hero-bio">
+      I build clean, fast, and visually stunning things for the web.
+      Interested in the entire frontend spectrum — from pixel-perfect
+      design to smooth animations — and always looking to collaborate
+      with positive, ambitious people.
+    </p>
+    <div class="btn-group">
+      <a href="#contact" class="btn btn-primary">Contact Me</a>
+      <a href="#project" class="btn btn-ghost">See My Work</a>
+    </div>
+    <div class="scroll-hint">
+      <div class="line"></div>
+      Scroll
+    </div>
+  </section>
+
+  <!-- ── TECH STACK ───────────────────────────────────────────── -->
+  <section class="section" id="techStack">
+    <div class="section-header reveal">
+      <div class="tag">Skills</div>
+      <h2 class="section-title">My Tech Stack</h2>
+      <p class="section-sub">Technologies I've been working with recently</p>
+    </div>
+    <div class="skills-glass reveal">
+      <div class="skill-pill">
+        <!-- HTML5 SVG inline icon -->
+        <svg width="36" height="36" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#e44d26" d="M71 460l-37-415h444l-37 415L255 500z"/>
+          <path fill="#f16529" d="M256 472l143-40 31-353H256z"/>
+          <path fill="#ebebeb" d="M256 208h-67l-5-55h72V100h-130l14 156h116zm0 148l-59-16-4-45h-53l7 85 109 30z"/>
+          <path fill="#fff" d="M256 208v53h62l-6 63-56 15v55l109-30 8-85 8-71zm0-108v53h120l-4-53z"/>
+        </svg>
+        HTML5
+      </div>
+      <div class="skill-pill">
+        <!-- CSS3 SVG inline icon -->
+        <svg width="36" height="36" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#1572b6" d="M71 460l-37-415h444l-37 415L255 500z"/>
+          <path fill="#33a9dc" d="M256 472l143-40 31-353H256z"/>
+          <path fill="#fff" d="M256 208h62l-4 55-58 16v55l108-30 8-85 9-71H256zm-67 0h-53l7 78h46l-2 21-62 17v52l116-32 3-26 4-57z"/>
+          <path fill="#ebebeb" d="M256 100H126l4 53h126zm0 108v55l-58-16-3-39h-53l7 85 107 30v-55l-56-16 3-44z"/>
+        </svg>
+        CSS3
+      </div>
+      <div class="skill-pill">
+        <!-- JS SVG inline icon -->
+        <svg width="36" height="36" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+          <rect width="512" height="512" fill="#f7df1e"/>
+          <path d="M324 370c8 13 19 22 37 22 16 0 26-8 26-19 0-13-10-18-28-25l-10-4c-27-12-45-26-45-57 0-28 22-50 56-50 24 0 41 8 54 30l-30 19c-6-12-13-17-24-17s-18 7-18 17c0 11 7 16 24 23l10 4c32 14 51 27 51 59 0 34-26 52-62 52-34 0-56-16-67-38zm-116 4c6 11 11 20 24 20 12 0 20-5 20-23V222h38v152c0 38-22 55-55 55-29 0-46-15-55-34z"/>
+        </svg>
+        JavaScript
+      </div>
+      <div class="skill-pill">
+        <svg width="36" height="36" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#0d6efd" d="M2 1v126h124V1zm66.6 110c-3.4 6.8-10.6 11-18.6 11-12 0-22-10-22-22s10-22 22-22c8 0 15.2 4.2 18.6 11L60 95c-1.4-2.8-4.2-4.6-7.4-4.6-5.6 0-10 4.4-10 10s4.4 10 10 10c3.2 0 6-1.8 7.4-4.6zm26-1.8c0 10.4-7 13.8-18.4 13.8l-2-.1v-12c3.4 0 8.4.1 8.4-6V59.6H96z"/>
+        </svg>
+        Bootstrap
+      </div>
+      <div class="skill-pill">
+        <svg width="36" height="36" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#e44d26" d="M19.2 113L9 0h110l-10.2 113-44.9 12.4z"/>
+          <path fill="#f16529" d="M64 117.4l36.3-10.1 8.7-97.3H64z"/>
+          <path fill="#ebebeb" d="M64 52.1H47.1l-1.2-13.4H64V25.5H32.5l.3 3.5 3.2 35.9H64zm0 37.4l-.1.1-14.9-4-1-11.4H34.8l2 22.2 27.1 7.5.1-.1z"/>
+          <path fill="#fff" d="M63.9 52.1v13.2h15.8l-1.5 16.3-14.3 3.9v13.6l27.2-7.5 2-22.3.2-3.2H63.9zm0-26.6v13.2h30.9l.3-3.5.6-6.2.3-3.5z"/>
+        </svg>
+        HTML/CSS
+      </div>
+      <div class="skill-pill">
+        <svg width="36" height="36" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#6cc24a" d="M2 63.91v62.5h123.96V1.41H2z"/>
+          <path fill="#fff" d="M50.49 109.4H36.89V55.68H19.49V43.09h48.99v12.59H50.49zM96.16 110c-8.1 0-15.59-2.01-21.64-5.63l4.59-11.13c5.44 3.25 11.22 5.02 17.42 5.02 6.31 0 9.55-2.13 9.55-5.76 0-3.63-2.83-5.44-11.49-8.07-12.81-3.88-20.1-8.47-20.1-19.13 0-11.46 9.07-19.16 23.36-19.16 7.59 0 14.56 1.81 19.77 5.12l-4.28 11.24c-4.9-2.93-10.12-4.59-15.59-4.59-5.66 0-8.68 2.23-8.68 5.55 0 3.43 2.93 5.03 11.9 7.77 12.59 3.84 19.69 8.88 19.69 19.44-.01 11.67-9.08 19.33-24.5 19.33z"/>
+        </svg>
+        Node.js
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PROJECTS ─────────────────────────────────────────────── -->
+  <section class="section" id="project">
+    <div class="section-header reveal">
+      <div class="tag">Work</div>
+      <h2 class="section-title">Projects</h2>
+      <p class="section-sub">Things I've built so far</p>
+    </div>
+    <div class="projects-grid">
+      <div class="project-card reveal">
+        <div class="project-img-wrap">
+          <img class="project-thumb" src="project1.png" alt="Portfolio project screenshot" />
+        </div>
+        <div class="project-body">
+          <h3 class="project-title">Personal Portfolio</h3>
+          <p class="project-desc">
+            My official portfolio website built entirely with HTML &amp; CSS —
+            showcasing clean design, smooth animations, and responsive layouts.
+          </p>
+          <a href="port html.html" class="project-link">View Code</a>
+        </div>
+      </div>
+
+      <!-- placeholder cards for future projects -->
+      <div class="project-card reveal" style="opacity:0.45;pointer-events:none;">
+        <div class="project-img-wrap" style="height:200px;background:rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:center;">
+          <span style="font-size:2.5rem;opacity:0.2;">+</span>
+        </div>
+        <div class="project-body">
+          <h3 class="project-title" style="color:var(--muted);">Coming Soon</h3>
+          <p class="project-desc">Next project in progress…</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CONTACT ──────────────────────────────────────────────── -->
+  <section class="section" id="contact">
+    <div class="section-header reveal" style="text-align:center;">
+      <div class="tag">Get in Touch</div>
+      <h2 class="section-title">Contact</h2>
+      <p class="section-sub">Open to freelance, collaboration, and opportunities</p>
+    </div>
+    <div class="contact-card reveal">
+      <p style="color:var(--muted);font-size:0.9rem;">Drop me a mail anytime</p>
+      <p class="contact-email">xyz2210@gmail.com</p>
+      <a href="mailto:xyz2210@gmail.com" class="btn btn-primary" style="display:inline-flex;margin:0 auto;">Say Hello</a>
+      <div class="social-row">
+        <div class="social-btn">
+          <img src="linkdin (1).png" alt="LinkedIn" />
+        </div>
+        <div class="social-btn">
+          <!-- GitHub inline SVG -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="color:#d4d4d8;">
+            <path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.15-1.1-1.46-1.1-1.46-.9-.62.07-.6.07-.6 1 .07 1.52 1.02 1.52 1.02.88 1.52 2.32 1.08 2.88.83.09-.64.34-1.08.62-1.33-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.02-2.68-.1-.26-.44-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.6 9.6 0 0112 6.8c.85.004 1.7.115 2.5.337 1.91-1.29 2.75-1.02 2.75-1.02.54 1.37.2 2.38.1 2.64.63.7 1.02 1.59 1.02 2.68 0 3.84-2.34 4.69-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10.01 10.01 0 0022 12c0-5.52-4.48-10-10-10z"/>
+          </svg>
+        </div>
+        <div class="social-btn">
+          <!-- Twitter/X inline SVG -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="color:#d4d4d8;">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+        </div>
+      </div>
+      <p style="margin-top:2rem;font-size:0.8rem;color:var(--muted);">+91 902765****</p>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ────────────────────────────────────────────────── -->
+  <footer>
+    <span class="grad-text">Khushi Saini</span>
+    <span>Made with ❤️ and ☕ — 2024</span>
+  </footer>
+
+  <!-- ── SCROLL REVEAL SCRIPT ──────────────────────────────────── -->
+  <script>
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } }),
+      { threshold: 0.12 }
+    );
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
